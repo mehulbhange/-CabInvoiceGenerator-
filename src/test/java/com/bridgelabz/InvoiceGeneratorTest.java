@@ -47,5 +47,16 @@ public class InvoiceGeneratorTest {
         Assertions.assertEquals(invoiceSummary, summary);
 
     }
+    @Test
+    void givenUserIdWithRideType_ShouldReturnTheInvoice() {
+        String userId = "102";
+        Ride[] rides = { new Ride(2.0, 5,RideType.NORMAL_RIDE),
+                new Ride(0.1, 1,RideType.NORMAL_RIDE),
+                new Ride(0.1, 1,RideType.PREMIUM_RIDE) };
+        invoiceGenerator.addRides(userId, rides);
+        InvoiceSummary summary = invoiceGenerator.getInvoiceSummary(userId);
+        InvoiceSummary checkSummary = new InvoiceSummary(3, 50.0);
+        Assertions.assertEquals(summary, checkSummary);
+    }
 
 }
