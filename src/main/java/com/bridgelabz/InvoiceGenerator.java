@@ -8,6 +8,8 @@ public class InvoiceGenerator {
     private  final int COST_PER_MINUTE = 1 ;
     private final double MINIMUM_FARE = 5;
 
+    private RideRepository rideRepository = new RideRepository();
+
     public double calculateFare(double distance,int time){
         double fare = (distance * COST_PER_KILOMETER) + (time * COST_PER_MINUTE);
         return Math.max(MINIMUM_FARE,fare);
@@ -24,6 +26,14 @@ public class InvoiceGenerator {
     public InvoiceSummary getInvoiceSummary(Ride[] rides) {
         double totalFare = calculateFare(rides);
         return new InvoiceSummary(rides.length, totalFare);
+    }
+
+    public void addRides(String userId, Ride[] rides) {
+        rideRepository.addRide(userId, rides);
+    }
+
+    public InvoiceSummary getInvoiceSummary(String userId) {
+        return this.getInvoiceSummary(rideRepository.getRides(userId));
     }
 
 }
